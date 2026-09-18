@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+// Fungsi untuk melakukan enkripsi pesan
+string enkripsiAlien(string pesanAsli) {
+    string pesanSandi = "";
+    int nilaiSebelumnya = 0; // Huruf pertama tidak digeser (penambahan = 0)
+
+    for (char c : pesanAsli) {
+        char hurufKapital = toupper(c);
+        
+        // Memastikan hanya memproses huruf A-Z
+        if (hurufKapital >= 'A' && hurufKapital <= 'Z') {
+            // 1. Konversi huruf ke posisi alfabet (A=1, B=2, ..., Z=26)
+            int nilaiSekarang = hurufKapital - 'A' + 1;
+
+            // 2. Hitung posisi baru (ditambah nilai huruf asli sebelumnya)
+            int posisiBaru = nilaiSekarang + nilaiSebelumnya;
+
+            // 3. Jika melebihi 26, kembali berputar dari A
+            if (posisiBaru > 26) {
+                posisiBaru -= 26;
+            }
+
+            // 4. Ubah nilai angka kembali ke karakter huruf
+            pesanSandi += (char)(posisiBaru + 'A' - 1);
+
+            // 5. Simpan nilai huruf asli saat ini untuk iterasi berikutnya
+            nilaiSebelumnya = nilaiSekarang;
+        } else {
+            // Karakter selain huruf (seperti spasi) tetap dimasukkan
+            pesanSandi += c;
+        }
+    }
+
+    return pesanSandi;
+}
+
+int main() {
+    string inputPesan;
+
+    cout << "Masukkan pesan asli: ";
+    cin >> inputPesan;
+
+    string hasilSandi = enkripsiAlien(inputPesan);
+
+    cout << "Hasil pesan sandi : " << hasilSandi << endl;
+
+    return 0;
+}
