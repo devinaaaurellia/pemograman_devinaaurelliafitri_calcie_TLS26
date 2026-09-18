@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int jumlahAstronot;
+    cout << "Masukkan Jumlah Astronot: ";
+    cin >> jumlahAstronot;
+
+    // Menyiapkan daftar astronot (1 sampai jumlahAstronot)
+    vector<int> daftarAstronot;
+    for (int idx = 1; idx <= jumlahAstronot; idx++) {
+        daftarAstronot.push_back(idx);
+    }
+
+    int i = jumlahAstronot; // Variabel penanda jumlah/posisi astronot saat ini
+    int K = 0;              // Inisialisasi variabel K
+
+    // Perulangan selama i > 1
+    while (i > 1) {
+        int nomorEliminasi;
+        cout << "\n[Sisa Astronot: " << i << "]" << endl;
+        cout << "Masukkan Nomor Eliminasi (Indeks 1 - " << i << "): ";
+        cin >> nomorEliminasi;
+
+        // Proses eliminasi astronot dari daftar
+        if (nomorEliminasi >= 1 && nomorEliminasi <= i) {
+            daftarAstronot.erase(daftarAstronot.begin() + (nomorEliminasi - 1));
+            cout << "Astronot pada nomor eliminasi " << nomorEliminasi << " berhasil dieliminasi." << endl;
+        } else {
+            cout << "Nomor eliminasi tidak valid! Mengabaikan langkah eliminasi ini." << endl;
+        }
+
+        // Penyesuaian nilai K berdasarkan kegenapan nilai i (i mod 2 == 0)
+        if (i % 2 == 0) {
+            // Jika TRUE (i genap)
+            K = K + 2;
+        } else {
+            // Jika FALSE (i ganjil)
+            K = K - 1;
+            
+            // Pengecekan kondisi K > 2
+            if (K > 2) {
+                // Jika TRUE, nilai K diatur ulang berdasarkan persamaan (i mod 2 == 0)
+                K = (i % 2 == 0) ? 1 : 0;
+            } else {
+                // Jika FALSE, nilai K menjadi 2
+                K = 2;
+            }
+        }
+
+        cout << "Nilai K saat ini: " << K << endl;
+
+        // Mengurangi jumlah astronot tersisa untuk iterasi berikutnya
+        i--;
+    }
+
+    // Ketika i tidak lagi lebih dari 1 (tersisa 1 astronot)
+    cout << "\n===================================" << endl;
+    cout << "Astronot Terakhir yang tersisa: Astronot ke-" << daftarAstronot[0] << endl;
+    cout << "===================================" << endl;
+
+    return 0;
+}
